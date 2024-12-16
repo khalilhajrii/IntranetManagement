@@ -2,6 +2,7 @@ package com.IntranetManagement.IntranetManagement.dtos;
 
 public class LoginUserDto {
     private String email;
+    private String password;
 
     public String getEmail() {
         return email;
@@ -19,5 +20,4 @@ public class LoginUserDto {
         this.password = password;
     }
 
-    private String password;
 }

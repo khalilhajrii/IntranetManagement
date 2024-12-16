@@ -35,12 +35,24 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    @Column(nullable = false)
+    private Integer IsAdmin;
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getIsAdmlin(){
+        return IsAdmin;
+    }
+
+    public User setIsAdmin(Integer isAdmin) {
+        this.IsAdmin = isAdmin;
+        return this;
     }
 
     public String getFullName() {

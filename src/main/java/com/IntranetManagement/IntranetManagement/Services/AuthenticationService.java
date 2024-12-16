@@ -6,7 +6,6 @@ import com.IntranetManagement.IntranetManagement.dtos.RegisterUserDto;
 import com.IntranetManagement.IntranetManagement.repositories.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +31,8 @@ public class AuthenticationService  {
         User user = new User()
                 .setFullName(input.getFullName())
                 .setEmail(input.getEmail())
-                .setPassword(passwordEncoder.encode(input.getPassword()));
-
+                .setPassword(passwordEncoder.encode(input.getPassword()))
+                .setIsAdmin(input.getIsAdmin());
         return userRepository.save(user);
     }
 
