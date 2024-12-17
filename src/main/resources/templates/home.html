@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Home</title>
+    <script>
+        // Ensure the user is authenticated
+        window.onload = function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('You are not logged in. Redirecting to login...');
+                window.location.href = '/';
+            } else {
+                makeAuthenticatedRequest(token);
+            }
+        };
+
+async function makeAuthenticatedRequest(token) {
+    try {
+        const response = await fetch('http://localhost:8081/api/home', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,  // Add token in Authorization header
+                'Content-Type': 'application/json'
+            }
+        });
+
+        // Check the response content type to make sure it's JSON
+        const contentType = response.headers.get("Content-Type");
+
+        if (contentType && contentType.includes("application/json")) {
+            // If response is JSON, parse it
+            const data = await response.json();
+            console.log('Data received:', data);
+            // Process the response data here
+        } else {
+            // If the response is not JSON, handle the HTML response (likely an error or login page)
+            const errorText = await response.text(); // Get response as text
+            console.error('Unexpected response:', errorText);
+            alert('Unexpected response from server: HTML content received. Please check the token or authentication.');
+        }
+    } catch (error) {
+        console.error('Error during request:', error);
+        alert('Something went wrong, please try again.');
+    }
+}
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+            </form>
+        </div>
+    </nav>
+</header>
+<h1>Welcome to the Home Page</h1>
+<p>You are successfully logged in!</p>  <p>Email: <span th:text="${email}">Email will be here</span></p>
+</body>
+</html>

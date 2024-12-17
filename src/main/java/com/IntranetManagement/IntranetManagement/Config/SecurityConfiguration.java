@@ -40,8 +40,13 @@ public class SecurityConfiguration {
                                 "/v3/api-docs/**",
                                 "/v3/api-docs",
                                 "/webjars/**",
-                                "/**" // Temporary wildcard to allow all requests
+                                "/",
+                                "/api/auth/login",
+                                "/home",
+                                "/addUserPage"
                         ).permitAll()
+                        .requestMatchers("/api/auth/addUser")
+                        .hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
