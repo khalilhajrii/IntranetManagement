@@ -1,6 +1,9 @@
 package com.IntranetManagement.IntranetManagement.Entities;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Department {
     @Id
@@ -10,6 +13,30 @@ public class Department {
     public String DepartmentName;
     @Column(nullable = false)
     public int IsActive=1;
+
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private List<Event> events;
+
+    // Relation OneToMany : un département peut avoir plusieurs utilisateurs
+    @OneToMany(mappedBy = "department")
+    private List<User> users = new ArrayList<>();
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -34,4 +61,6 @@ public class Department {
     public int getIsActive() {
         return IsActive;
     }
+
+
 }
