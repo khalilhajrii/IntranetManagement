@@ -16,19 +16,11 @@ public class ViewController {
         this.jwtService = jwtService;
     }
         @GetMapping("/home")
-        public String homePage(Model model, HttpServletRequest request) {
-        try {
-            String token = request.getHeader("Authorization").substring(7);
-            String email = jwtService.extractEmail(token);
-            boolean isAdmin = jwtService.extractIsAdmin(token);
-            model.addAttribute("email", email);
-            model.addAttribute("isAdmin", isAdmin);
-        }catch (Exception ex) {
-            System.out.println(ex.getMessage());
-        }
-
+        public String homePage(Model model) {
+            model.addAttribute("email", null);
+            model.addAttribute("isAdmin", null);
             return "home";
-        }
+    }
 
     @GetMapping("/")
     public String loginPage() {
