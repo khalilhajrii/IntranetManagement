@@ -22,6 +22,9 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private List<User> users = new ArrayList<>();
 
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Document> documents;
+
     public List<Event> getEvents() {
         return events;
     }
