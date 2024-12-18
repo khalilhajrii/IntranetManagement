@@ -1,5 +1,6 @@
 package com.IntranetManagement.IntranetManagement.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -43,6 +44,20 @@ public class User implements UserDetails {
     @Column(nullable = false)
     @Schema(description = "password of the user", example = "1")
     private Integer IsAdmin;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id", nullable = false)
+    @JsonBackReference
+    private Department department;
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public User setDepartment(Department department) {
+        this.department = department;
+        return this;
+    }
 
     public Integer getId() {
         return id;
