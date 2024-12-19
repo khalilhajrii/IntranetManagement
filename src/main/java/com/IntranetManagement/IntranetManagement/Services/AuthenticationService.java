@@ -1,9 +1,12 @@
 package com.IntranetManagement.IntranetManagement.Services;
 
+import com.IntranetManagement.IntranetManagement.Entities.Department;
 import com.IntranetManagement.IntranetManagement.Entities.User;
-import com.IntranetManagement.IntranetManagement.dtos.LoginUserDto;
+import com.IntranetManagement.IntranetManagement.dtos.LoginUserRequestDto;
 import com.IntranetManagement.IntranetManagement.dtos.RegisterUserDto;
+import com.IntranetManagement.IntranetManagement.repositories.DepartmentRepository;
 import com.IntranetManagement.IntranetManagement.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,32 +14,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthenticationService  {
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private  AuthenticationManager authenticationManager;
 
-    private final PasswordEncoder passwordEncoder;
-
-    private final AuthenticationManager authenticationManager;
-
-    public AuthenticationService(
-            UserRepository userRepository,
-            AuthenticationManager authenticationManager,
-            PasswordEncoder passwordEncoder
-    ) {
-        this.authenticationManager = authenticationManager;
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    public User signup(RegisterUserDto input) {
-        User user = new User()
-                .setFullName(input.getFullName())
-                .setEmail(input.getEmail())
-                .setPassword(passwordEncoder.encode(input.getPassword()))
-                .setIsAdmin(input.getIsAdmin());
-        return userRepository.save(user);
-    }
-
-    public User authenticate(LoginUserDto input) {
+    public User authenticate(LoginUserRequestDto input) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         input.getEmail(),
@@ -47,5 +30,4 @@ public class AuthenticationService  {
         return userRepository.findByEmail(input.getEmail())
                 .orElseThrow();
     }
-
 }

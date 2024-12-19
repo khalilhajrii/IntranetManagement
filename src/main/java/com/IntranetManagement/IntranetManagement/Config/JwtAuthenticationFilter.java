@@ -1,5 +1,7 @@
 package com.IntranetManagement.IntranetManagement.Config;
 import java.io.IOException;
+
+import com.IntranetManagement.IntranetManagement.Entities.User;
 import com.IntranetManagement.IntranetManagement.Services.JwtService;
 import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.FilterChain;
@@ -48,14 +50,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             final String jwt = authHeader.substring(7);
-            final String userEmail = jwtService.extractUsername(jwt);
+            final String userEmail = jwtService.extractEmail(jwt);
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
             if (userEmail != null && authentication == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+                String email = ((User) userDetails).getEmail();
 
-                if (jwtService.isTokenValid(jwt, userDetails)) {
+                if (jwtService.isTokenValid(jwt, email)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
@@ -69,7 +72,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } catch (Exception exception) {
-            handlerExceptionResolver.resolveException(request, response, null, exception);
+            System.out.println(exception.getMessage());
+            response.getWriter().write("Invalid JWT token");
         }
     }
 

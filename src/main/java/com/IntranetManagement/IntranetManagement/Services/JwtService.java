@@ -34,6 +34,12 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
+    public String extractEmail(String token) {
+        return extractClaim(token, claims -> claims.get("email", String.class));
+    }
+    public boolean extractIsAdmin(String token) {
+        return extractClaim(token, claims -> claims.get("isAdmin", Boolean.class));
+    }
     public String generateToken(User userDetails) {
         return generateToken(new HashMap<>(), userDetails);
     }
@@ -51,7 +57,7 @@ public class JwtService {
             User userDetails,
             long expiration
     ) {
-        extraClaims.put("isAdmin", userDetails.getIsAdmlin());
+        extraClaims.put("isAdmin", userDetails.getIsAdmin());
         extraClaims.put("email", userDetails.getEmail());
         return Jwts
                 .builder()
@@ -62,9 +68,9 @@ public class JwtService {
                 .compact();
     }
 
-    public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    public boolean isTokenValid(String token, String email) {
+        final String username = extractEmail(token);
+        return (username.equals(email)) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
