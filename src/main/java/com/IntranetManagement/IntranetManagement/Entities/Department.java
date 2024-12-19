@@ -9,13 +9,17 @@ public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
+
     @Column(nullable = false)
     public String DepartmentName;
+
     @Column(name = "is_active", nullable = false)
     public int IsActive=1;
+
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<User> users;
+
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Event> events;
 

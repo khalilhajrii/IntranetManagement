@@ -23,7 +23,7 @@ public class EventService {
     }
 
 
-    public Event createEvent(Event event, Long departmentId, Long userId) {
+    public Event createEvent(Event event, Integer departmentId, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -50,7 +50,7 @@ public class EventService {
         return event;
     }
 
-    public Event updateEvent(Long eventId, Event updatedEvent, Long departmentId, Long userId) {
+    public Event updateEvent(Long eventId, Event updatedEvent, Integer departmentId, Long userId) {
         // Vérifier si l'utilisateur existe et s'il est admin
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
