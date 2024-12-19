@@ -52,7 +52,7 @@ public class DepartmentController {
         return ResponseEntity.ok().build();
     }
 
-    // Supprimer un utilisateur d'un département
+
     @PostMapping("/{departmentId}/remove")
     public ResponseEntity<Void> removeUserFromDepartment(@RequestParam Long userId,
                                                          @PathVariable Integer departmentId,

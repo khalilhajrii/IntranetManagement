@@ -1,5 +1,6 @@
 package com.IntranetManagement.IntranetManagement.Entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +24,24 @@ public class Department {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Event> events;
 
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private List<Document> documents;
+
+    public List<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
+    }
+
     public List<Event> getEvents() {
         return events;
     }
     public void setEvents(List<Event> events) {
         this.events = events;
     }
+
     public List<User> getUsers() {
         return users;
     }
@@ -60,4 +73,6 @@ public class Department {
     public int getIsActive() {
         return IsActive;
     }
+
+
 }
