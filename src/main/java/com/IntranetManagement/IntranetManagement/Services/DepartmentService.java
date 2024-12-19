@@ -28,13 +28,12 @@ public class DepartmentService {
         return departmentRepository.findAll();
     }
 
-    public Department getDepartmentById(Long departmentId) {
+    public Department getDepartmentById(Integer departmentId) {
         return departmentRepository.findById(departmentId)
                 .orElseThrow(() -> new RuntimeException("Department not found"));
     }
 
-
-    public Department updateDepartment(Long departmentId, String newName, Long userId) {
+    public Department updateDepartment(Integer departmentId, String newName, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -50,7 +49,7 @@ public class DepartmentService {
     }
 
 
-    public void deleteDepartment(Long departmentId, Long userId) {
+    public void deleteDepartment(Integer departmentId, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -67,7 +66,8 @@ public class DepartmentService {
 
 
 
-    public void assignUserToDepartment(Long userId, Long departmentId, Long adminId) {
+
+    public void assignUserToDepartment(Long userId, Integer departmentId, Long adminId) {
         User admin = userRepository.findById(adminId)
                 .orElseThrow(() -> new RuntimeException("Admin not found"));
 
@@ -92,7 +92,7 @@ public class DepartmentService {
 
 
 
-    public void removeUserFromDepartment(Long userId, Long departmentId, Long adminId) {
+    public void removeUserFromDepartment(Long userId, Integer departmentId, Long adminId) {
         User admin = userRepository.findById(adminId)
                 .orElseThrow(() -> new RuntimeException("Admin not found"));
 
@@ -114,6 +114,10 @@ public class DepartmentService {
         user.setDepartment(null); // Supprimer l'affectation du département
         userRepository.save(user);
     }
+
+
+
+
 
 
 }

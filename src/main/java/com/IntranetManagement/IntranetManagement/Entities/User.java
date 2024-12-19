@@ -1,11 +1,14 @@
 package com.IntranetManagement.IntranetManagement.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import io.swagger.v3.oas.annotations.media.Schema;
+
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,12 +24,15 @@ public class User implements UserDetails {
     private Integer id;
 
     @Column(nullable = false)
+    @Schema(description = "Name of the user", example = "John Doe")
     private String fullName;
 
     @Column(unique = true, length = 100, nullable = false)
+    @Schema(description = "email of the user", example = "JohnDoe@example.com")
     private String email;
 
     @Column(nullable = false)
+    @Schema(description = "password of the user", example = "XX1@bbb*")
     private String password;
 
     @CreationTimestamp
@@ -38,15 +44,33 @@ public class User implements UserDetails {
     private Date updatedAt;
 
     @Column(nullable = false)
+    @Schema(description = "password of the user", example = "1")
     private Integer IsAdmin;
 
-
-    // Relation ManyToOne : un utilisateur appartient à un seul département
     @ManyToOne
-    @JoinColumn(name = "department_id")
-    @JsonIgnoreProperties({"DepartmentName", "users", "events"," IsActive"}) // Ignore les autres champs du département
+    @JoinColumn(name = "department_id", nullable = false)
+    @JsonBackReference
     private Department department;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_events",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    private List<Event> events = new ArrayList<>();
+    public Department getDepartment() {
+        return department;
+    }
+
+    public User setDepartment(Department department) {
+        this.department = department;
+        return this;
+    }
+
+    public Integer getId() {
+        return id;
+    }
     public List<Event> getEvents() {
         return events;
     }
@@ -55,23 +79,11 @@ public class User implements UserDetails {
         this.events = events;
     }
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_events",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id")
-    )
-    private List<Event> events = new ArrayList<>(); // Les événements ajoutés au calendrier personnel.
-
-    public Integer getId() {
-        return id;
-    }
-
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public Integer getIsAdmlin(){
+    public Integer getIsAdmin(){
         return IsAdmin;
     }
 
@@ -93,18 +105,6 @@ public class User implements UserDetails {
         return email;
     }
 
-    public Integer getIsAdmin() {
-        return IsAdmin;
-    }
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-
     public User setEmail(String email) {
         this.email = email;
         return this;
@@ -112,7 +112,11 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        if (IsAdmin == 1) {
+            return List.of(() -> "ROLE_ADMIN");
+        } else {
+            return List.of(() -> "ROLE_USER");
+        }
     }
 
     @Override

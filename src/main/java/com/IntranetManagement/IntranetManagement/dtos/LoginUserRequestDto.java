@@ -1,6 +1,6 @@
 package com.IntranetManagement.IntranetManagement.dtos;
 
-public class LoginUserDto {
+public class LoginUserRequestDto {
     private String email;
     private String password;
 

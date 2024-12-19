@@ -23,22 +23,19 @@ public class EventService {
     }
 
 
-    public Event createEvent(Event event, Long departmentId, Long userId) {
+    public Event createEvent(Event event, Integer departmentId, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Vérifier si l'utilisateur est admin
         if (user.getIsAdmin() == null || user.getIsAdmin() != 1) {
             throw new RuntimeException("Only admins can create events.");
         }
 
         Department department = departmentRepository.findById(departmentId)
                 .orElseThrow(() -> new RuntimeException("Department not found"));
-        event.setDepartment(department); // Associer l'événement au département.
+        event.setDepartment(department);
         return eventRepository.save(event);
     }
 
-    // Ajouter un événement au calendrier personnel d'un utilisateur
     public Event addEventToUser(Long eventId, Long userId) {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
@@ -50,8 +47,7 @@ public class EventService {
         return event;
     }
 
-    public Event updateEvent(Long eventId, Event updatedEvent, Long departmentId, Long userId) {
-        // Vérifier si l'utilisateur existe et s'il est admin
+    public Event updateEvent(Long eventId, Event updatedEvent, Integer departmentId, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -59,7 +55,6 @@ public class EventService {
             throw new RuntimeException("Only admins can update events.");
         }
 
-        // Récupérer l'événement existant
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new RuntimeException("Event not found"));
 

@@ -28,7 +28,7 @@ public class EventController {
 
     @PostMapping("/create")
     public ResponseEntity<Event> createEvent(@RequestBody Event event,
-                                             @RequestParam Long departmentId,
+                                             @RequestParam Integer departmentId,
                                              @RequestParam Long userId) {
 
         return ResponseEntity.ok(eventService.createEvent(event, departmentId, userId));
@@ -37,7 +37,7 @@ public class EventController {
     @PutMapping("/{eventId}/update")
     public ResponseEntity<Event> updateEvent(@PathVariable Long eventId,
                                              @RequestBody Event updatedEvent,
-                                             @RequestParam Long departmentId,
+                                             @RequestParam Integer departmentId,
                                              @RequestParam Long userId) {
         Event event = eventService.updateEvent(eventId, updatedEvent, departmentId, userId);
         return ResponseEntity.ok(event);

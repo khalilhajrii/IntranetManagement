@@ -26,7 +26,7 @@ public class DepartmentController {
 
     // Mettre à jour un département
     @PutMapping("/{departmentId}/update")
-    public ResponseEntity<Department> updateDepartment(@PathVariable Long departmentId,
+    public ResponseEntity<Department> updateDepartment(@PathVariable Integer departmentId,
                                                        @RequestBody String newName,
                                                        @RequestParam Long userId) {
         Department updatedDepartment = departmentService.updateDepartment(departmentId, newName, userId);
@@ -36,7 +36,7 @@ public class DepartmentController {
 
     // Supprimer un département
     @DeleteMapping("/{departmentId}")
-    public ResponseEntity<Void> deleteDepartment(@PathVariable Long departmentId,
+    public ResponseEntity<Void> deleteDepartment(@PathVariable Integer departmentId,
                                                  @RequestParam Long userId) {
         departmentService.deleteDepartment(departmentId, userId);
         return ResponseEntity.noContent().build();
@@ -46,7 +46,7 @@ public class DepartmentController {
     // Affecter un utilisateur à un département
     @PostMapping("/{departmentId}/assign")
     public ResponseEntity<Void> assignUserToDepartment(@RequestParam Long userId,
-                                                       @PathVariable Long departmentId,
+                                                       @PathVariable Integer departmentId,
                                                        @RequestParam Long adminId) {
         departmentService.assignUserToDepartment(userId, departmentId, adminId);
         return ResponseEntity.ok().build();
@@ -55,7 +55,7 @@ public class DepartmentController {
 
     @PostMapping("/{departmentId}/remove")
     public ResponseEntity<Void> removeUserFromDepartment(@RequestParam Long userId,
-                                                         @PathVariable Long departmentId,
+                                                         @PathVariable Integer departmentId,
                                                          @RequestParam Long adminId) {
         departmentService.removeUserFromDepartment(userId, departmentId, adminId);
         return ResponseEntity.ok().build();
@@ -68,7 +68,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/{departmentId}")
-    public ResponseEntity<Department> getDepartmentById(@PathVariable Long departmentId) {
+    public ResponseEntity<Department> getDepartmentById(@PathVariable Integer departmentId) {
         Department department = departmentService.getDepartmentById(departmentId);
         return ResponseEntity.ok(department);
     }
