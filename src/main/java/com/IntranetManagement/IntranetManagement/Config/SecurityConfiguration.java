@@ -33,6 +33,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/swagger-ui.html",
@@ -41,11 +42,10 @@ public class SecurityConfiguration {
                                 "/v3/api-docs",
                                 "/webjars/**",
                                 "/",
-                                "/api/auth/login",
-                                "/home",
-                                "/addUserPage"
+                                "/api/auth/login"
                         ).permitAll()
-                        .requestMatchers("/api/auth/addUser")
+                        .requestMatchers("/api/user/addUser",
+                                "api/user/GetAllUsers")
                         .hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -62,10 +62,11 @@ public class SecurityConfiguration {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:8081"));
-        configuration.setAllowedMethods(List.of("GET","POST"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization","Content-Type"));
-
+        configuration.addAllowedHeader("*");
+        configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
         source.registerCorsConfiguration("/**",configuration);

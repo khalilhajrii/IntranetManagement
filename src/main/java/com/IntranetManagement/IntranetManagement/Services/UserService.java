@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserService {
     @Autowired
@@ -27,5 +30,15 @@ public class UserService {
                 .setIsAdmin(input.getIsAdmin())
                 .setDepartment(department);
         return userRepository.save(user);
+    }
+
+    public List<User> GetAllUsers(){
+        try {
+            return userRepository.findAll();
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return new ArrayList<>();
     }
 }
