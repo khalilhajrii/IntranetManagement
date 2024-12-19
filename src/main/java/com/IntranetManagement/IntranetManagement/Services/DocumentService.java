@@ -35,10 +35,10 @@ public class DocumentService {
                 .collect(Collectors.toList());
     }
 
-    // all important documents for home page
-    public List<Document> getImportantDocuments() {
+    // important documents
+    public List<Document> getImportantDocuments(Long departmentId) {
         return documentRepository.findAll().stream()
-                .filter(doc -> doc.getIsImportant() == 1)  // 1 means it's important
+                .filter(doc -> doc.getIsImportant() == 1 && doc.getDepartment().getId().equals(departmentId))
                 .collect(Collectors.toList());
     }
 

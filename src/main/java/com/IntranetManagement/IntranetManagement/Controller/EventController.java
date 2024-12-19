@@ -25,7 +25,7 @@ public class EventController {
         return eventService.getAllEvents();
     }
 
-    // Créer un événement pour des départements
+
     @PostMapping("/create")
     public ResponseEntity<Event> createEvent(@RequestBody Event event,
                                              @RequestParam Long departmentId,
@@ -49,7 +49,7 @@ public class EventController {
         return ResponseEntity.noContent().build();
     }
 
-    // Ajouter un événement au calendrier personnel d’un utilisateur
+
     @PostMapping("/{eventId}/add-to-user/{userId}")
     public ResponseEntity<Event> addEventToUser(@PathVariable Long eventId, @PathVariable Long userId) {
         return ResponseEntity.ok(eventService.addEventToUser(eventId, userId));

@@ -20,9 +20,9 @@ public class DocumentController {
 
 
     // Get all important documents
-    @GetMapping("/important")
-    public ResponseEntity<List<Document>> getImportantDocuments() {
-        List<Document> documents = documentService.getImportantDocuments();
+    @GetMapping("/important/{departmentId}")
+    public ResponseEntity<List<Document>> getImportantDocuments(@PathVariable Long departmentId) {
+        List<Document> documents = documentService.getImportantDocuments(departmentId);
         return ResponseEntity.ok(documents);
     }
 
