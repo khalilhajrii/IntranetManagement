@@ -36,7 +36,7 @@ public class ViewController {
 
     @GetMapping("/addUserPage")
     public String addUserPage(Model model) {
-        List<Department> departments=departementService.findAllActiveDepartements();
+        List<Department> departments=departementService.findAllActiveDepartments();
         model.addAttribute("departments",departments);
         return "addUser";
     }
