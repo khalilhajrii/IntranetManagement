@@ -44,7 +44,7 @@ public class DocumentService {
 
 
     // Create
-    public Document createDocument(Document document, Long departmentId) {
+    public Document createDocument(Document document, Integer departmentId) {
         Department department = departmentRepository.findById(departmentId)
                 .orElseThrow(() -> new RuntimeException("Department not found"));
 
@@ -53,7 +53,7 @@ public class DocumentService {
     }
 
     // Update
-    public Document updateDocument(Long id, Document updatedDocument, Long departmentId) {
+    public Document updateDocument(Long id, Document updatedDocument, Integer departmentId) {
         Document document = documentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("document not found"));
 

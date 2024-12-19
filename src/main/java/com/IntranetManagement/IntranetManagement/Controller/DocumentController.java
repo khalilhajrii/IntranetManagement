@@ -44,15 +44,15 @@ public class DocumentController {
     // create
     @PostMapping("/create")
     public ResponseEntity<Document> createDocument(@RequestBody Document document,
-                                             @RequestParam Long departmentId) {
-        document.setId(null);
+                                             @RequestParam Integer departmentId) {
+
         return ResponseEntity.ok(documentService.createDocument(document, departmentId));
     }
 
     @PutMapping("/{documentId}/update")
     public ResponseEntity<Document> updateDocument(@PathVariable Long documentId,
                                              @RequestBody Document updatedDocument,
-                                             @RequestParam Long departmentId){
+                                             @RequestParam Integer departmentId){
         Document document = documentService.updateDocument(documentId, updatedDocument, departmentId);
         return ResponseEntity.ok(document);
     }
