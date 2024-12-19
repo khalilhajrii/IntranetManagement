@@ -1,6 +1,7 @@
 package com.IntranetManagement.IntranetManagement.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -9,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +52,13 @@ public class User implements UserDetails {
     @JsonBackReference
     private Department department;
 
+    @ManyToMany
+    @JoinTable(
+            name = "user_events",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    private List<Event> events = new ArrayList<>();
     public Department getDepartment() {
         return department;
     }
@@ -61,6 +70,13 @@ public class User implements UserDetails {
 
     public Integer getId() {
         return id;
+    }
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 
     public void setId(Integer id) {
