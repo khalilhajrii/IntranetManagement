@@ -1,4 +1,5 @@
 package com.IntranetManagement.IntranetManagement.Entities;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -18,12 +19,19 @@ public class Department {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Event> events;
 
-    // Relation OneToMany : un département peut avoir plusieurs utilisateurs
     @OneToMany(mappedBy = "department")
     private List<User> users = new ArrayList<>();
 
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Document> documents;
+
+    public List<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
+    }
 
     public List<Event> getEvents() {
         return events;

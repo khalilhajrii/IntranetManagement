@@ -34,9 +34,6 @@ public class DepartmentService {
     }
 
 
-
-
-
     public Department updateDepartment(Long departmentId, String newName, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -66,7 +63,6 @@ public class DepartmentService {
 
         departmentRepository.delete(department);
     }
-
 
 
 
@@ -118,10 +114,6 @@ public class DepartmentService {
         user.setDepartment(null); // Supprimer l'affectation du département
         userRepository.save(user);
     }
-
-
-
-
 
 
 }

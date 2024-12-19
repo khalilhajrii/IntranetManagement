@@ -4,54 +4,76 @@ import com.IntranetManagement.IntranetManagement.Entities.Department;
 import com.IntranetManagement.IntranetManagement.Entities.Document;
 import com.IntranetManagement.IntranetManagement.repositories.DepartmentRepository;
 import com.IntranetManagement.IntranetManagement.repositories.DocumentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DocumentService {
+    private final DocumentRepository documentRepository;
+    private final DepartmentRepository departmentRepository;
 
-    @Autowired
-    private DepartmentRepository departmentRepository;
+    public DocumentService(DocumentRepository documentRepository, DepartmentRepository departmentRepository) {
+        this.documentRepository = documentRepository;
+        this.departmentRepository = departmentRepository;
+    }
 
-    @Autowired
-    private DocumentRepository documentRepository;
+    // Fetch
+    // all public documents by department
+    public List<Document> getPublicDocuments(Long departmentId) {
+        return documentRepository.findAll().stream()
+                .filter(doc -> doc.getIsPrivate() == 0 && doc.getDepartment().getId().equals(departmentId) )
+                .collect(Collectors.toList());
+    }
 
-    // Create a new document for a department
-    public Document createDocument(Long departmentId, String title, String content) {
+    // all private documents by department
+    public List<Document> getPrivateDocuments(Long departmentId) {
+        return documentRepository.findAll().stream()
+                .filter(doc -> doc.getIsPrivate() == 1 && doc.getDepartment().getId().equals(departmentId))
+                .collect(Collectors.toList());
+    }
+
+    // all important documents for home page
+    public List<Document> getImportantDocuments() {
+        return documentRepository.findAll().stream()
+                .filter(doc -> doc.getIsImportant() == 1)  // 1 means it's important
+                .collect(Collectors.toList());
+    }
+
+
+    // Create
+    public Document createDocument(Document document, Long departmentId) {
         Department department = departmentRepository.findById(departmentId)
-                .orElseThrow(() -> new IllegalArgumentException("Department not found"));
+                .orElseThrow(() -> new RuntimeException("Department not found"));
 
-        Document document = new Document();
-        document.setTitle(title);
-        document.setContent(content);
         document.setDepartment(department);
-
         return documentRepository.save(document);
     }
 
-    // Update a document
-    public Document updateDocument(Long documentId, String title, String content) {
-        Document document = documentRepository.findById(documentId)
-                .orElseThrow(() -> new IllegalArgumentException("Document not found"));
+    // Update
+    public Document updateDocument(Long id, Document updatedDocument, Long departmentId) {
+        Document document = documentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("document not found"));
 
-        document.setTitle(title);
-        document.setContent(content);
+        document.setTitle(updatedDocument.getTitle());
+        document.setContent(updatedDocument.getContent());
+        document.setIsPrivate(updatedDocument.getIsPrivate());
+        document.setIsImportant(updatedDocument.getIsImportant());
+
+        if (departmentId != null) {
+            Department department = departmentRepository.findById(departmentId)
+                    .orElseThrow(() -> new RuntimeException("Department not found."));
+            document.setDepartment(department);}
 
         return documentRepository.save(document);
     }
 
     // Delete a document
-    public void deleteDocument(Long documentId) {
-        documentRepository.deleteById(documentId);
-    }
-
-    // Get all documents for a specific department
-    public List<Document> getDocumentsForDepartment(Long departmentId) {
-        return documentRepository.findByDepartmentId(departmentId);
+    public void deleteDocument(Long id) {
+        documentRepository.deleteById(id);
     }
 }
+
+
