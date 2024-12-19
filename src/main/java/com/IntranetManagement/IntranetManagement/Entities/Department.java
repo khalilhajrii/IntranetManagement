@@ -1,6 +1,6 @@
 package com.IntranetManagement.IntranetManagement.Entities;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,25 +11,20 @@ public class Department {
     public Long id;
     @Column(nullable = false)
     public String DepartmentName;
-    @Column(nullable = false)
+    @Column(name = "is_active", nullable = false)
     public int IsActive=1;
-
-
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private List<User> users;
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Event> events;
-
-    // Relation OneToMany : un département peut avoir plusieurs utilisateurs
-    @OneToMany(mappedBy = "department")
-    private List<User> users = new ArrayList<>();
 
     public List<Event> getEvents() {
         return events;
     }
-
     public void setEvents(List<Event> events) {
         this.events = events;
     }
-
     public List<User> getUsers() {
         return users;
     }
@@ -61,6 +56,4 @@ public class Department {
     public int getIsActive() {
         return IsActive;
     }
-
-
 }
