@@ -1,7 +1,5 @@
 package com.IntranetManagement.IntranetManagement.dtos;
 
-import com.IntranetManagement.IntranetManagement.Entities.Rights;
-
 public class RegisterUserDto {
     private String username;
     private String email;

@@ -1,5 +1,9 @@
 package com.IntranetManagement.IntranetManagement.Entities;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Department {
@@ -10,6 +14,40 @@ public class Department {
     public String DepartmentName;
     @Column(nullable = false)
     public int IsActive=1;
+
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private List<Event> events;
+
+    @OneToMany(mappedBy = "department")
+    private List<User> users = new ArrayList<>();
+
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private List<Document> documents;
+
+    public List<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -34,4 +72,6 @@ public class Department {
     public int getIsActive() {
         return IsActive;
     }
+
+
 }

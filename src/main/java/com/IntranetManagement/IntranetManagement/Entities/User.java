@@ -1,11 +1,13 @@
 package com.IntranetManagement.IntranetManagement.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +40,29 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Integer IsAdmin;
 
+
+    // Relation ManyToOne : un utilisateur appartient à un seul département
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    @JsonIgnoreProperties({"DepartmentName", "users", "events"," IsActive"}) // Ignore les autres champs du département
+    private Department department;
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_events",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "event_id")
+    )
+    private List<Event> events = new ArrayList<>(); // Les événements ajoutés au calendrier personnel.
+
     public Integer getId() {
         return id;
     }
@@ -67,6 +92,18 @@ public class User implements UserDetails {
     public String getEmail() {
         return email;
     }
+
+    public Integer getIsAdmin() {
+        return IsAdmin;
+    }
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
 
     public User setEmail(String email) {
         this.email = email;
