@@ -14,46 +14,33 @@ import java.util.List;
 
 public class EventController {
     @Autowired
-    private final EventService eventService;
+    private EventService eventService;
 
     public EventController(EventService eventService) {
         this.eventService = eventService;
     }
 
-    @GetMapping
-    public List<Event> getAllEvents() {
-        return eventService.getAllEvents();
-    }
-
-
     @PostMapping("/create")
-    public ResponseEntity<Event> createEvent(@RequestBody Event event,
-                                             @RequestParam Integer departmentId,
-                                             @RequestParam Long userId) {
-
-        return ResponseEntity.ok(eventService.createEvent(event, departmentId, userId));
+    public ResponseEntity<Event> createEvent(@RequestBody Event event, @RequestParam Integer departmentId) {
+        return ResponseEntity.ok(eventService.createEvent(event, departmentId));
     }
-
     @PutMapping("/{eventId}/update")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long eventId,
-                                             @RequestBody Event updatedEvent,
-                                             @RequestParam Integer departmentId,
-                                             @RequestParam Long userId) {
-        Event event = eventService.updateEvent(eventId, updatedEvent, departmentId, userId);
-        return ResponseEntity.ok(event);
+    public ResponseEntity<Event> updateEvent(@PathVariable Long eventId, @RequestBody Event event, @RequestParam Integer departmentId) {
+        return ResponseEntity.ok(eventService.updateEvent(eventId, event, departmentId));
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
-        eventService.deleteEvent(id);
+    @DeleteMapping("/{eventId}/delete")
+    public ResponseEntity<Void> deleteEvent(@PathVariable Long eventId) {
+        eventService.deleteEvent(eventId);
         return ResponseEntity.noContent().build();
     }
-
-
-    @PostMapping("/{eventId}/add-to-user/{userId}")
-    public ResponseEntity<Event> addEventToUser(@PathVariable Long eventId, @PathVariable Long userId) {
-        return ResponseEntity.ok(eventService.addEventToUser(eventId, userId));
+    @GetMapping("/department/{departmentId}")
+    public ResponseEntity<List<Event>> getEventsByDepartment(@PathVariable Long departmentId) {
+        return ResponseEntity.ok(eventService.getEventsByDepartment(departmentId));
     }
 
+    @GetMapping("/{eventId}")
+    public ResponseEntity<Event> getEventById(@PathVariable Long eventId) {
+        return ResponseEntity.ok(eventService.getEventById(eventId));
+    }
 
 }
