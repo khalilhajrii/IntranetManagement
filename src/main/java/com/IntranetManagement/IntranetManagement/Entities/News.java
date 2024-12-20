@@ -31,8 +31,6 @@ public class News {
     @Column(nullable = false, updatable = false)
     private LocalDate creationDate = LocalDate.now();
 
-    @FutureOrPresent
-    private LocalDate expiryDate;
 
     @NotNull(message = "Highlighted is required")
     @Min(0) @Max(1)
@@ -69,14 +67,6 @@ public class News {
 
     public void setCreationDate(@NotNull LocalDate creationDate) {
         this.creationDate = creationDate;
-    }
-
-    public @FutureOrPresent LocalDate getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(@FutureOrPresent LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
     }
 
     public @NotNull(message = "Highlighted is required") @Min(0) @Max(1) Integer getIsHighlighted() {

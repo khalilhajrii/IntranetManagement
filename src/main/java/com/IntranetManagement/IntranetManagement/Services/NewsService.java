@@ -20,11 +20,7 @@ public class NewsService {
         this.departmentRepository = departmentRepository;
     }
 
-    // delete the expired news
-    public void deleteExpiredNews() {
-        List<News> expiredNews = newsRepository.findByExpiryDateBefore(LocalDate.now());
-        newsRepository.deleteAll(expiredNews);
-    }
+
 
     // Fetch
     // all highlighted by id

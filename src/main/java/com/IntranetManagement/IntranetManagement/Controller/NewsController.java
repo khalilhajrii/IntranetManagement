@@ -21,7 +21,8 @@ public class NewsController {
 
     //create
     @PostMapping("/create")
-    public ResponseEntity<News> createNews(@RequestBody News news, @RequestParam Long departmentId) {
+    public ResponseEntity<News> createNews(@RequestBody News news,
+                                           @RequestParam Long departmentId) {
         return ResponseEntity.ok(newsService.createNews(news, departmentId));
     }
 
