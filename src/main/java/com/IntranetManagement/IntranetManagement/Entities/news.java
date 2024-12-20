@@ -1,62 +1,87 @@
 package com.IntranetManagement.IntranetManagement.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDate;
+
 
 @Entity
 public class News {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @JsonIgnore
+    private Integer id;
 
-    @Column(nullable = false)
+    @NotNull(message = "Title is required")
     private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @NotNull(message = "Content is required")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    private String author;
+    @NotNull
+    @Column(nullable = false, updatable = false)
+    private LocalDate creationDate = LocalDate.now();
 
-    private LocalDateTime publishedDate;
 
-    // Getters and Setters
-    public Long getId() {
+    @NotNull(message = "Highlighted is required")
+    @Min(0) @Max(1)
+    private Integer isHighlighted; // 1 highlighted
+
+    @ManyToOne
+    @JoinColumn(name = "departmentId", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
+    private Department department;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
+    public @NotNull(message = "Title is required") String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(@NotNull(message = "Title is required") String title) {
         this.title = title;
     }
 
-    public String getContent() {
+    public @NotNull(message = "Content is required") String getContent() {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(@NotNull(message = "Content is required") String content) {
         this.content = content;
     }
 
-    public String getAuthor() {
-        return author;
+    public @NotNull LocalDate getCreationDate() {
+        return creationDate;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
+    public void setCreationDate(@NotNull LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
-    public LocalDateTime getPublishedDate() {
-        return publishedDate;
+    public @NotNull(message = "Highlighted is required") @Min(0) @Max(1) Integer getIsHighlighted() {
+        return isHighlighted;
     }
 
-    public void setPublishedDate(LocalDateTime publishedDate) {
-        this.publishedDate = publishedDate;
+    public void setIsHighlighted(@NotNull(message = "Highlighted is required") @Min(0) @Max(1) Integer isHighlighted) {
+        this.isHighlighted = isHighlighted;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }
