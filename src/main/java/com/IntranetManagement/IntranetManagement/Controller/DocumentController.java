@@ -16,6 +16,7 @@ public class DocumentController {
     private final DocumentService documentService;
 
     public DocumentController(DocumentService documentService) {
+
         this.documentService = documentService;
     }
 
@@ -72,7 +73,7 @@ public class DocumentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteDocument(@PathVariable Long id) {
         documentService.deleteDocument(id);
         return ResponseEntity.noContent().build();
     }
