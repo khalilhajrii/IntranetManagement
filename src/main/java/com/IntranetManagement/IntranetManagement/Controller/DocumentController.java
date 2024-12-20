@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/documents")
@@ -38,6 +39,19 @@ public class DocumentController {
     @GetMapping("/private/{departmentId}")
     public ResponseEntity<List<Document>> getPrivateDocuments(@PathVariable Long departmentId) {
         List<Document> documents = documentService.getPrivateDocuments(departmentId);
+        return ResponseEntity.ok(documents);
+    }
+    // Get all private documents
+    @GetMapping("/{documentId}")
+    public ResponseEntity<Optional<Document>> getDocumentById(@PathVariable Long documentId) {
+        Optional<Document> documents = documentService.getDocumentById(documentId);
+        return ResponseEntity.ok(documents);
+    }
+
+    // Get all private documents
+    @GetMapping("/all/{departmentId}")
+    public ResponseEntity<List<Document>> GetallDocuments(@PathVariable Long departmentId) {
+        List<Document> documents = documentService.getAllDocuments(departmentId);
         return ResponseEntity.ok(documents);
     }
 

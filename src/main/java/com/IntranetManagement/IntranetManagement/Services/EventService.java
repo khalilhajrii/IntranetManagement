@@ -24,16 +24,21 @@ public class EventService {
 
 
     public Event createEvent(Event event, Integer departmentId, Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-        if (user.getIsAdmin() == null || user.getIsAdmin() != 1) {
-            throw new RuntimeException("Only admins can create events.");
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+            if (user.getIsAdmin() == null || user.getIsAdmin() != 1) {
+                throw new RuntimeException("Only admins can create events.");
+            }
+            Department department = departmentRepository.findById(departmentId)
+                    .orElseThrow(() -> new RuntimeException("Department not found"));
+            event.setDepartment(department);
+            return eventRepository.save(event);
         }
-
-        Department department = departmentRepository.findById(departmentId)
-                .orElseThrow(() -> new RuntimeException("Department not found"));
-        event.setDepartment(department);
-        return eventRepository.save(event);
+        catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+        return new Event();
     }
 
     public Event addEventToUser(Long eventId, Long userId) {
