@@ -27,6 +27,17 @@ public class Department {
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
     private List<Document> documents;
 
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    private List<News> news;
+
+    public List<News> getNews() {
+        return news;
+    }
+
+    public void setNews(List<News> news) {
+        this.news = news;
+    }
+
     public List<Document> getDocuments() {
         return documents;
     }
