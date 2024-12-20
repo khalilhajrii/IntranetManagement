@@ -52,13 +52,7 @@ public class User implements UserDetails {
     @JsonBackReference
     private Department department;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_events",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id")
-    )
-    private List<Event> events = new ArrayList<>();
+
     public Department getDepartment() {
         return department;
     }
@@ -68,16 +62,7 @@ public class User implements UserDetails {
         return this;
     }
 
-    public Integer getId() {
-        return id;
-    }
-    public List<Event> getEvents() {
-        return events;
-    }
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
-    }
 
     public void setId(Integer id) {
         this.id = id;

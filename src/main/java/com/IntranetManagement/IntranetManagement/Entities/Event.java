@@ -1,5 +1,6 @@
 package com.IntranetManagement.IntranetManagement.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ public class Event {
     private LocalDateTime endTime;
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = false)
+    @JsonIgnore
     private Department department;
 
     public Department getDepartment() {

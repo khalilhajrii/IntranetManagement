@@ -4,11 +4,11 @@ package com.IntranetManagement.IntranetManagement.Entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.util.Date;
 
 
 @Entity
@@ -16,22 +16,26 @@ import lombok.Data;
 public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Long id;
 
     @NotBlank(message = "Title is required")
     private String title;
 
     @NotBlank(message = "Title is required")
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String content;
+    @CreationTimestamp
+    @Column(updatable = false, name = "created_at")
+    private Date createdAt;
 
     @NotNull(message = "isPrivate field is required")
     @Min(0) @Max(1)
-    private Integer isPrivate; //1 private, 0 not private
+    private Integer isPrivate;
 
     @NotNull(message = "isImportant field is required")
     @Min(0) @Max(1)
-    private Integer isImportant;// 1 important, 0 not important
+    private Integer isImportant;
 
     @ManyToOne
     @JoinColumn(name="dep_id", nullable = false)
@@ -78,4 +82,21 @@ public class Document {
     public void setDepartment(Department department) {
         this.department = department;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
 }

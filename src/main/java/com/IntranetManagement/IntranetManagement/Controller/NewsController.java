@@ -1,7 +1,5 @@
 package com.IntranetManagement.IntranetManagement.Controller;
 
-
-
 import com.IntranetManagement.IntranetManagement.Entities.News;
 import com.IntranetManagement.IntranetManagement.Services.NewsService;
 import org.springframework.http.HttpStatus;
@@ -18,7 +16,6 @@ public class NewsController {
     public NewsController(NewsService newsService) {
         this.newsService = newsService;
     }
-
     //create
     @PostMapping("/create")
     public ResponseEntity<News> createNews(@RequestBody News news,
@@ -63,4 +60,3 @@ public class NewsController {
         return new ResponseEntity<>(allNews, HttpStatus.OK);
     }
 }
-
