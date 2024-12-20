@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,11 +46,16 @@ public class DocumentService {
 
     // Create
     public Document createDocument(Document document, Integer departmentId) {
-        Department department = departmentRepository.findById(departmentId)
-                .orElseThrow(() -> new RuntimeException("Department not found"));
+        try {
+            Department department = departmentRepository.findById(departmentId)
+                    .orElseThrow(() -> new RuntimeException("Department not found"));
 
-        document.setDepartment(department);
-        return documentRepository.save(document);
+            document.setDepartment(department);
+            return documentRepository.save(document);
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return new Document();
     }
 
     // Update
@@ -73,6 +79,20 @@ public class DocumentService {
     // Delete a document
     public void deleteDocument(Long id) {
         documentRepository.deleteById(id);
+    }
+
+    public List<Document> getAllDocuments(Long departmentId) {
+        return documentRepository.findAll().stream()
+                .filter(doc ->doc.getDepartment().getId().equals(departmentId))
+                .collect(Collectors.toList());
+    }
+    public Optional<Document> getDocumentById(Long documentId) {
+        try{
+            return documentRepository.findById(documentId);
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        return Optional.of(new Document());
     }
 }
 
