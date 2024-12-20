@@ -1,13 +1,13 @@
 package com.IntranetManagement.IntranetManagement.repositories;
 
 
-import com.IntranetManagement.IntranetManagement.Entities.News;
+import com.IntranetManagement.IntranetManagement.Entities.news;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface NewsRepository extends JpaRepository<News, Integer> {
+public interface NewsRepository extends JpaRepository<news, Integer> {
 
 
-    List<News> findByDepartmentIdAndIsHighlighted(Integer departmentId, int i);
+    List<news> findByDepartmentIdAndIsHighlighted(Integer departmentId, int i);
 }

@@ -1,6 +1,6 @@
 package com.IntranetManagement.IntranetManagement.Controller;
 
-import com.IntranetManagement.IntranetManagement.Entities.News;
+import com.IntranetManagement.IntranetManagement.Entities.news;
 import com.IntranetManagement.IntranetManagement.Services.NewsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,23 +18,23 @@ public class NewsController {
     }
     //create
     @PostMapping("/create")
-    public ResponseEntity<News> createNews(@RequestBody News news,
+    public ResponseEntity<news> createNews(@RequestBody news news,
                                            @RequestParam Long departmentId) {
         return ResponseEntity.ok(newsService.createNews(news, departmentId));
     }
 
     // all news
     @GetMapping("/allNews")
-    public List<News> getAllNews() {
+    public List<news> getAllNews() {
         return newsService.getAllNews();
     }
 
     // update
     @PutMapping("/{newsId}/update")
-    public ResponseEntity<News> updateNews(@PathVariable Integer newsId,
-                                           @RequestBody News updatedNews,
+    public ResponseEntity<news> updateNews(@PathVariable Integer newsId,
+                                           @RequestBody news updatedNews,
                                            @RequestParam Integer departmentId){
-        News news = newsService.updateNews(newsId, updatedNews, departmentId);
+        news news = newsService.updateNews(newsId, updatedNews, departmentId);
         return ResponseEntity.ok(news);
     }
 
@@ -47,16 +47,16 @@ public class NewsController {
     
     // highlited by dep id
     @GetMapping("/highlighted/{departmentId}")
-    public ResponseEntity<List<News>> getHighlightedNews(@PathVariable Long departmentId) {
-        List<News> highlightedNews = newsService.getHighlightedNews(departmentId);
+    public ResponseEntity<List<news>> getHighlightedNews(@PathVariable Long departmentId) {
+        List<news> highlightedNews = newsService.getHighlightedNews(departmentId);
         return new ResponseEntity<>(highlightedNews, HttpStatus.OK);
     }
 
 
     // news by dep id
     @GetMapping("/department/{departmentId}")
-    public ResponseEntity<List<News>> getAllNewsByDepartment(@PathVariable Integer departmentId) {
-        List<News> allNews = newsService.getAllNewsByDepartment(departmentId);
+    public ResponseEntity<List<news>> getAllNewsByDepartment(@PathVariable Integer departmentId) {
+        List<news> allNews = newsService.getAllNewsByDepartment(departmentId);
         return new ResponseEntity<>(allNews, HttpStatus.OK);
     }
 }

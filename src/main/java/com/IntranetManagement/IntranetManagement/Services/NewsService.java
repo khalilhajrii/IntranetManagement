@@ -1,12 +1,11 @@
 package com.IntranetManagement.IntranetManagement.Services;
 
 import com.IntranetManagement.IntranetManagement.Entities.Department;
-import com.IntranetManagement.IntranetManagement.Entities.News;
+import com.IntranetManagement.IntranetManagement.Entities.news;
 import com.IntranetManagement.IntranetManagement.repositories.DepartmentRepository;
 import com.IntranetManagement.IntranetManagement.repositories.NewsRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,7 +23,7 @@ public class NewsService {
 
     // Fetch
     // all highlighted by id
-    public List<News> getHighlightedNews(Long departmentId) {
+    public List<news> getHighlightedNews(Long departmentId) {
         return newsRepository.findAll().stream()
                 .filter(doc -> doc.getIsHighlighted() == 1 && doc.getDepartment().getId().equals(departmentId) )
                 .collect(Collectors.toList());
@@ -34,7 +33,7 @@ public class NewsService {
 
 
     // Create
-    public News createNews(News news, Long departmentId) {
+    public news createNews(news news, Long departmentId) {
         Department department = departmentRepository.findById(Math.toIntExact(departmentId))
                 .orElseThrow(() -> new RuntimeException("Department not found"));
 
@@ -43,8 +42,8 @@ public class NewsService {
     }
 
     // Update
-    public News updateNews(Integer id, News updatedNews, Integer departmentId) {
-        News news = newsRepository.findById(id)
+    public news updateNews(Integer id, news updatedNews, Integer departmentId) {
+        news news = newsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("News not found"));
 
         news.setTitle(updatedNews.getTitle());
@@ -63,11 +62,11 @@ public class NewsService {
         newsRepository.deleteById(id);
     }
 
-    public List<News> getAllNews() {
+    public List<news> getAllNews() {
         return newsRepository.findAll();
     }
 
-    public List<News> getAllNewsByDepartment(Integer departmentId) {
+    public List<news> getAllNewsByDepartment(Integer departmentId) {
         return newsRepository.findByDepartmentIdAndIsHighlighted(departmentId, 1);
     }
 }

@@ -1,8 +1,7 @@
 package com.IntranetManagement.IntranetManagement.Entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Entity
@@ -28,13 +27,13 @@ public class Department {
     private List<Document> documents;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private List<News> news;
+    private List<com.IntranetManagement.IntranetManagement.Entities.news> news;
 
-    public List<News> getNews() {
+    public List<com.IntranetManagement.IntranetManagement.Entities.news> getNews() {
         return news;
     }
 
-    public void setNews(List<News> news) {
+    public void setNews(List<com.IntranetManagement.IntranetManagement.Entities.news> news) {
         this.news = news;
     }
 
