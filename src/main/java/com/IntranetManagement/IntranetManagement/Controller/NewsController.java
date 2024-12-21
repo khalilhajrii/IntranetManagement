@@ -31,7 +31,7 @@ public class NewsController {
     }
 
     @GetMapping("/{newsId}")
-    public Optional<News> getNewsById( @PathVariable Integer newsId) {
+    public Optional<News> getNewsById(@PathVariable Integer newsId) {
         return newsService.getNewsById(newsId);
     }
 

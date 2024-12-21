@@ -6,7 +6,6 @@ import com.IntranetManagement.IntranetManagement.repositories.DepartmentReposito
 import com.IntranetManagement.IntranetManagement.repositories.NewsRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,17 +20,18 @@ public class NewsService {
         this.departmentRepository = departmentRepository;
     }
 
+    public List<News> getAllNews() {
+        return newsRepository.findAll();
+    }
 
 
     // Fetch
     // all highlighted by id
     public List<News> getHighlightedNews(Long departmentId) {
         return newsRepository.findAll().stream()
-                .filter(doc -> doc.getIsHighlighted() == 1 && doc.getDepartment().getId().equals(departmentId) )
+                .filter(doc -> doc.getIsHighlighted() == 1 && doc.getDepartment().getId().equals(departmentId))
                 .collect(Collectors.toList());
     }
-
-
 
 
     // Create
@@ -55,7 +55,8 @@ public class NewsService {
         if (departmentId != null) {
             Department department = departmentRepository.findById(departmentId)
                     .orElseThrow(() -> new RuntimeException("Department not found."));
-            news.setDepartment(department);}
+            news.setDepartment(department);
+        }
         return newsRepository.save(news);
     }
 
@@ -63,12 +64,6 @@ public class NewsService {
     public void deleteNews(Integer id) {
         newsRepository.deleteById(id);
     }
-
-
-    public List<News> getAllNews() {
-        return newsRepository.findAll();
-    }
-
 
     public List<News> getAllNewsByDepartment(Integer departmentId) {
         return newsRepository.findByDepartmentId(departmentId);
