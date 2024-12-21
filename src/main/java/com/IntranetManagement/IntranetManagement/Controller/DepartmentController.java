@@ -36,30 +36,30 @@ public class DepartmentController {
 
     // Supprimer un département
     @DeleteMapping("/{departmentId}")
-    public ResponseEntity<Void> deleteDepartment(@PathVariable Integer departmentId,
-                                                 @RequestParam Long userId) {
-        departmentService.deleteDepartment(departmentId, userId);
+    public ResponseEntity<Void> deleteDepartment(@PathVariable Integer departmentId){
+        departmentService.deleteDepartment(departmentId);
         return ResponseEntity.noContent().build();
     }
 
 
     // Affecter un utilisateur à un département
-    @PostMapping("/{departmentId}/assign")
+ /*   @PostMapping("/{departmentId}/assign")
     public ResponseEntity<Void> assignUserToDepartment(@RequestParam Long userId,
                                                        @PathVariable Integer departmentId,
                                                        @RequestParam Long adminId) {
         departmentService.assignUserToDepartment(userId, departmentId, adminId);
         return ResponseEntity.ok().build();
-    }
+    }*/
 
 
+    /*
     @PostMapping("/{departmentId}/remove")
     public ResponseEntity<Void> removeUserFromDepartment(@RequestParam Long userId,
                                                          @PathVariable Integer departmentId,
                                                          @RequestParam Long adminId) {
         departmentService.removeUserFromDepartment(userId, departmentId, adminId);
         return ResponseEntity.ok().build();
-    }
+    }*/
 
     @GetMapping
     public ResponseEntity<List<Department>> getAllDepartments() {

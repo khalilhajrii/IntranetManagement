@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -63,11 +64,17 @@ public class NewsService {
         newsRepository.deleteById(id);
     }
 
+
     public List<News> getAllNews() {
         return newsRepository.findAll();
     }
 
+
     public List<News> getAllNewsByDepartment(Integer departmentId) {
-        return newsRepository.findByDepartmentIdAndIsHighlighted(departmentId, 1);
+        return newsRepository.findByDepartmentId(departmentId);
+    }
+
+    public Optional<News> getNewsById(Integer NewsId) {
+        return newsRepository.findById(NewsId);
     }
 }

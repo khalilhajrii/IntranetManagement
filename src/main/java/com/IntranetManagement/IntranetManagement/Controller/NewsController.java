@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/news")
@@ -27,6 +28,11 @@ public class NewsController {
     @GetMapping("/allNews")
     public List<News> getAllNews() {
         return newsService.getAllNews();
+    }
+
+    @GetMapping("/{newsId}")
+    public Optional<News> getNewsById( @PathVariable Integer newsId) {
+        return newsService.getNewsById(newsId);
     }
 
     // update
