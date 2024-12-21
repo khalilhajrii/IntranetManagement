@@ -10,7 +10,7 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     public String DepartmentName;
 
     @Column(name = "is_active", nullable = false)

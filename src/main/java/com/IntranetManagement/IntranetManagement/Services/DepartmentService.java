@@ -18,9 +18,10 @@ public class DepartmentService {
         this.userRepository = userRepository;
     }
 
-    public Department createDepartment(String name) {
+    public Department createDepartment(String name, Integer isActive) {
         Department department = new Department();
         department.setDepartmentName(name);
+        department.setIsActive(isActive);
         return departmentRepository.save(department);
     }
 

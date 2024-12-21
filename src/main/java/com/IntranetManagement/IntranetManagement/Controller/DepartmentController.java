@@ -18,8 +18,9 @@ public class DepartmentController {
 
     // Créer un département
     @PostMapping("/create")
-    public ResponseEntity<Department> createDepartment(@RequestBody String name) {
-        Department department = departmentService.createDepartment(name);
+    public ResponseEntity<Department> createDepartment(@RequestBody String name,
+                                                       @RequestParam Integer isActive) {
+        Department department = departmentService.createDepartment(name,isActive);
         return ResponseEntity.ok(department);
     }
 
