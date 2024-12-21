@@ -10,4 +10,5 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
 
 
     List<News> findByDepartmentIdAndIsHighlighted(Integer departmentId, int i);
+    List<News> findByDepartmentId(Integer departmentId);
 }

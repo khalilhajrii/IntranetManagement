@@ -17,7 +17,6 @@ import java.time.LocalDate;
 public class News {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     private Integer id;
 
     @NotNull(message = "Title is required")
@@ -25,6 +24,7 @@ public class News {
 
     @NotNull(message = "Content is required")
     @Column(columnDefinition = "TEXT", nullable = false)
+    @Lob
     private String content;
 
     @NotNull

@@ -49,13 +49,7 @@ public class DepartmentService {
     }
 
 
-    public void deleteDepartment(Integer departmentId, Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        if (user.getIsAdmin() == null || user.getIsAdmin() != 1) {
-            throw new RuntimeException("Only admins can delete departments.");
-        }
+    public void deleteDepartment(Integer departmentId) {
 
         Department department = departmentRepository.findById(departmentId)
                 .orElseThrow(() -> new RuntimeException("Department not found"));
